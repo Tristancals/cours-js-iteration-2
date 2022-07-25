@@ -187,8 +187,8 @@ test("la fonction filter_objects_by_data_type retourne la liste d'objets demandÃ
     assert.equal(Object.keys(f("boolean"))[0], "objects");
     assert.equal(Object.keys(f("number").objects).length,11);
     assert.equal(Object.keys(f("boolean").objects).length,1);
-    assert.notEqual(Object.keys(f("boolean").objects[0]).indexOf("sensors"),-1);
-    assert.notEqual(Object.keys(f("number").objects[0]).indexOf("sensors"),-1);
+    // assert.notEqual(Object.keys(f("boolean").objects[0]).indexOf("sensors"),-1);
+    // assert.notEqual(Object.keys(f("number").objects[0]).indexOf("sensors"),-1);
 });
 
 test('la fonction get_full_object_by_serial renvoie l\'objet et tous ses dÃ©tails',()=>{

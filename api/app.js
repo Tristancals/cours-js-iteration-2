@@ -4,76 +4,78 @@
  * client web (front-end) d'accéder à des données.
  */
 
- /**
-  * import de la bibliothèque fs et lecture du fichier data.json.
-  */
+/**
+ * import de la bibliothèque fs et lecture du fichier data.json.
+ */
 const data = require('./data/data.json');
 
 
- /**
-  * Cette fonction est lancée au démarrage du serveur
-  * elle ne prend pas de paramètres et retourne
-  * une chaîne de caractères.
-  */
-function demarrage(){
-    return "";
+/**
+ * Cette fonction est lancée au démarrage du serveur
+ * elle ne prend pas de paramètres et retourne
+ * une chaîne de caractères.
+ */
+function demarrage() {
+    return "non vide";
 }
 
- /**
-  * Cette fonction est exécutée lorsqu'on demande l'adresse
-  * http://localhost:5000/ représentée par la route '/'.
-  * Elle ne prend pas de paramètres 
-  * Elle retourne un objet javascript au format json.
-  */
-function home(){
-    return undefined;
+/**
+ * Cette fonction est exécutée lorsqu'on demande l'adresse
+ * http://localhost:5000/ représentée par la route '/'.
+ * Elle ne prend pas de paramètres
+ * Elle retourne un objet javascript au format json.
+ */
+function home() {
+    return {"name": "John", "age": 30, "car": null};
 }
 
- /**
-  * Cette fonction est exécutée lorsqu'on demande l'adresse
-  * http://localhost:5000/data représentée par la route '/data'.
-  * Elle ne prend pas de paramètres.
-  * Elle retourne un objet javascript contenant toutes les données.
-  */
-function donnees(){
-    return {};
+/**
+ * Cette fonction est exécutée lorsqu'on demande l'adresse
+ * http://localhost:5000/data représentée par la route '/data'.
+ * Elle ne prend pas de paramètres.
+ * Elle retourne un objet javascript contenant toutes les données.
+ */
+function donnees() {
+    const jsonData = require('./data/data.json');
+    return jsonData;
 }
 
- /**
-  * Cette fonction est exécutée lorsqu'on demande l'adresse
-  * http://localhost:5000/comms représentée par la route '/comms'
-  * Elle ne prend pas de paramètres.
-  * Elle retourne un objet javascript contenant une liste
-  * de tous les modes de communications de la base de données.
-  * Cette liste sera contenu dans la clé communication
-  */
-function comms(){
-    return {"communication":[]};
+/**
+ * Cette fonction est exécutée lorsqu'on demande l'adresse
+ * http://localhost:5000/comms représentée par la route '/comms'
+ * Elle ne prend pas de paramètres.
+ * Elle retourne un objet javascript contenant une liste
+ * de tous les modes de communications de la base de données.
+ * Cette liste sera contenu dans la clé communication
+ */
+function comms() {
+    const jsonData = require('./data/data.json');
+    return {"communication": Object.values(jsonData.communication)};
 }
 
 
- /**
-  * Cette fonction est exécutée lorsqu'on demande l'adresse
-  * http://localhost:5000/objects représentée par la route '/objects'
-  * Elle ne prend pas de paramètres.
-  * Elle retourne un objet javascript contenant une liste
-  * de tous les objets de la base de données.
-  * Cette liste sera contenue dans la clé objects
-  */
-function objects(){
-    return {"objects":[]};
+/**
+ * Cette fonction est exécutée lorsqu'on demande l'adresse
+ * http://localhost:5000/objects représentée par la route '/objects'
+ * Elle ne prend pas de paramètres.
+ * Elle retourne un objet javascript contenant une liste
+ * de tous les objets de la base de données.
+ * Cette liste sera contenue dans la clé objects
+ */
+function objects() {
+    return {"objects": Object.values(jsonData.objects)};
 }
 
- /**
-  * Cette fonction est exécutée lorsqu'on demande l'adresse
-  * http://localhost:5000/types représentée par la route '/types'
-  * Elle ne prend pas de paramètres.
-  * Elle retourne un objet javascript contenant une liste
-  * des types existant et leur détail dans la base de données.
-  * Cette liste sera contenu dans la clé types
-  */
-function types(){
-    return undefined;
+/**
+ * Cette fonction est exécutée lorsqu'on demande l'adresse
+ * http://localhost:5000/types représentée par la route '/types'
+ * Elle ne prend pas de paramètres.
+ * Elle retourne un objet javascript contenant une liste
+ * des types existant et leur détail dans la base de données.
+ * Cette liste sera contenu dans la clé types
+ */
+function types() {
+    return {"types": Object.values(jsonData.types)};
 }
 
 /**
@@ -84,20 +86,21 @@ function types(){
  * des formats de donnnées existant et leur détail dans la base de données.
  * Cette liste sera contenu dans la clé formats.
  */
-function formats(){
-   return undefined;
+function formats() {
+    return {"formats": Object.values(jsonData.data_formats)};
 }
 
- /**
-  * Cette fonction est exécutée lorsqu'on demande l'adresse
-  * http://localhost:5000/objects/serials représentée par la route '/objects/serials'
-  * Elle ne prend pas de paramètres.
-  * Elle retourne un objet javascript contenant une liste
-  * de tous les numéros de série des objets de la base de données.
-  * Cette liste sera contenue dans la clé objects
-  */
-function objects_serials(){
-    return {"objects":[]};
+/**
+ * Cette fonction est exécutée lorsqu'on demande l'adresse
+ * http://localhost:5000/objects/serials représentée par la route '/objects/serials'
+ * Elle ne prend pas de paramètres.
+ * Elle retourne un objet javascript contenant une liste
+ * de tous les numéros de série des objets de la base de données.
+ * Cette liste sera contenue dans la clé objects
+ */
+function objects_serials() {
+    const serials = Object.values(jsonData.objects).map(element => element["serial"])
+    return {"objects": serials};
 }
 
 /**
@@ -107,8 +110,10 @@ function objects_serials(){
  * Elle retourne un objet javascript contenant seulement
  * l'objet ayant le serial passé en paramètre.
  */
-function get_object_by_serial(serial){
-    return serial;
+function get_object_by_serial(serial) {
+    let obj;
+    obj = Object.values(jsonData.objects).find(element => element["serial"] === serial);
+    return obj;
 }
 
 /**
@@ -118,8 +123,12 @@ function get_object_by_serial(serial){
  * Elle retourne un objet javascript contenant une
  * liste des objets ayant l'opérateur passé en paramètre.
  */
-function get_objects_by_operator(operator){
-    return operator;
+function get_objects_by_operator(operator) {
+    let obj = Object.values(jsonData.objects).filter(element => element.provisionning.operator === operator);
+    if (obj.length === 0) {
+        return undefined;
+    }
+    return {"objects": obj};
 }
 
 /**
@@ -129,8 +138,12 @@ function get_objects_by_operator(operator){
  * Elle retourne un objet javascript contenant une liste de types
  * ayant pour mode de communication celui passé en paramètre.
  */
-function get_types_by_comm(comm){
-    return comm;
+function get_types_by_comm(comm) {
+    let obj = Object.values(jsonData.types).filter(element => element.communication === comm);
+    if (obj.length === 0) {
+        return undefined;
+    }
+    return {"types": obj};
 }
 
 /**
@@ -140,8 +153,18 @@ function get_types_by_comm(comm){
  * Elle retourne un objet javascript contenant une liste de types
  * ayant pour un format de données celui passé en paramètre.
  */
-function get_types_by_format(format){
-    return format;
+function get_types_by_format(format) {
+    let result = [];
+    let objs = Object.values(jsonData.types);
+    for (let i = 0; i < objs.length; i++) {
+        if (objs[i].sensors.find(element => element === format)) {
+            result.push(objs[i])
+        }
+    }
+    if (result.length === 0) {
+        return undefined;
+    }
+    return {"types": result};
 }
 
 /**
@@ -151,8 +174,14 @@ function get_types_by_format(format){
  * Elle retourne un objet javascript contenant une liste d'objets
  * ayant pour mode de communication celui passé en paramètre.
  */
-function filter_objects_by_comm(comm){
-    return comm;
+function filter_objects_by_comm(comm) {
+    let objs = jsonData.objects
+    let types = jsonData.types
+    const result = objs.filter(element => comm === types[element.type].communication)
+    if (result.length === 0) {
+        return undefined
+    }
+    return {"objects": result};
 }
 
 /**
@@ -163,8 +192,42 @@ function filter_objects_by_comm(comm){
  * comprenant les noms des capteurs émettant des données
  * du même type que celui passé en paramètre.
  */
-function filter_objects_by_data_type(data_type){
-    return data_type;
+function filter_objects_by_data_type(data_type) {
+    console.log(data_type)
+    let result = [];
+    let objs = jsonData.objects
+    let types = jsonData.types;
+    let data_formats = jsonData.data_formats
+    let listType = Object.keys(data_formats).filter(element => data_formats[element]["data_type"] === data_type)
+    console.log('__________listType',listType)
+    let listKey = [];
+    listType.forEach(element => {
+        Object.keys(types).filter(typeKey => {
+            if (types[typeKey]["sensors"].includes(element)) {
+                listKey.push(typeKey)
+            }
+        })
+    })
+    console.log('_______listKey', listKey)
+
+    let uniqueChars = listKey.filter((c, index) => {
+        return listKey.indexOf(c) === index;
+    });
+
+    console.log('uniqueChars', uniqueChars)
+    uniqueChars.forEach(element => {
+        objs.filter(objs => {
+            if (objs['type'] === element) {
+                result.push(objs)
+            }
+        })
+    })
+    console.log(result)
+    if (result.length === 0) {
+        return undefined;
+    }
+
+    return {"objects": result};
 }
 
 /**
@@ -175,7 +238,7 @@ function filter_objects_by_data_type(data_type){
  * l'objet ayant le serial passé en paramètre comprenant toutes les informations possible sur cet objet.
  * Les types de données des sensors et autres informations seront regroupé dans la clé sensors de l'objet.
  */
-function get_full_object_by_serial(serial){
+function get_full_object_by_serial(serial) {
     return serial;
 }
 
@@ -185,7 +248,8 @@ function get_full_object_by_serial(serial){
  * d'autres opérations sont effectuées afin de pouvoir tester le code.
  */
 
-const express =require('express');
+const express = require('express');
+const jsonData = require("./data/data.json");
 const app = express();
 app.use(express.static('public'));
 
@@ -206,27 +270,27 @@ app.get('/types/comm/:comm', route(get_types_by_comm));
 app.get('/types/format/:format', route(get_types_by_format));
 
 
-function route(fun){
-    return function(req, res){
-        if( Object.keys(req.params).length!==0 ){
+function route(fun) {
+    return function (req, res) {
+        if (Object.keys(req.params).length !== 0) {
             res.json(fun(Object.values(req.params)[0]));
         }
         return res.send(fun());
     }
 }
 
-const port=process.argv[2]=="-u"?5001:process.argv[2];
-app.listen(port , function(){
+const port = process.argv[2] == "-u" ? 5001 : process.argv[2];
+app.listen(port, function () {
     console.log(demarrage());
 });
 
-module.exports={
-    "demarrage":demarrage,
-    "home":home,
-    "donnees":donnees,
-    "objects":objects,
-    "types":types,
-    "formats":formats,
+module.exports = {
+    "demarrage": demarrage,
+    "home": home,
+    "donnees": donnees,
+    "objects": objects,
+    "types": types,
+    "formats": formats,
     "objects_serials": objects_serials,
     "get_object_by_serial": get_object_by_serial,
     "get_full_object_by_serial": get_full_object_by_serial,
@@ -235,5 +299,5 @@ module.exports={
     "filter_objects_by_data_type": filter_objects_by_data_type,
     "get_types_by_comm": get_types_by_comm,
     "get_types_by_format": get_types_by_format,
-    "comms":comms
+    "comms": comms
 };
