@@ -222,6 +222,11 @@ function filter_objects_by_data_type(data_type) {
             }
         })
     })
+    for (let i = 0; i < result.length; i++) {
+        result[i]["sensors"]=types[result[i].type].sensors
+
+    }
+
     console.log(result)
     if (result.length === 0) {
         return undefined;
